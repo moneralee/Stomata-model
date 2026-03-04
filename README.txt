@@ -2,7 +2,7 @@ This repository contains the Python source code to produce the plots of the mode
 
 For a model description please see the Supplementary Information section of the paper.
 
-Stomata_model_Shao_Li_Yang_et_al.py must be run in a python environment. The standard python packages 'numpy', 'scipy', 'os', 'matplotlib' needs to be installed. 
+Stomata_model_Shao_Li_Yang_et_al.py can be run in a python environment. The standard python packages 'numpy', 'scipy', 'os', 'matplotlib' needs to be installed. 
 
 
 Stomata_model_Shao_Li_Yang_et_al.py: Defines the "Stomata" function, containing ordinary differential equations describing how the activity of SNRK2S, TOT3, PP2C, AHA, UPB24 and SLAC1 are regulated (see details in Supp. Information in Yang et al). The Stomata function is used to run the following simulations: 
