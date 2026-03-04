@@ -15,4 +15,4 @@ Stomata_model_Shao_Li_Yang_et_al.py: Defines the "Stomata" function, containing 
 
 Output: the output images are saved in an "output" folder in both png and svg formats.
 
-The simulations reported in the manuscript were performed in a Linux machine (Ubuntu 24.04), and have also been run on MacOS operating system (Ventura 13.5). The model takes 3.11 seconds to run. 
+The simulations reported in the manuscript were performed in a Linux machine (Ubuntu 24.04), and have also been run on MacOS operating system (Ventura 13.5). The model takes 1.25 seconds to run. 
