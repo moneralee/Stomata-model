@@ -4,6 +4,7 @@ from scipy.integrate import odeint
 import os
 import matplotlib.pyplot as plt
 
+# ODE stomata aperture model
 def Stomata(a,t,parameters): 
     # Parameters controlling TxD regulatory branches
     Km1=parameters['Km1'] # T activation of TOT3 (and indirectly OST1) - Branch 1
@@ -21,7 +22,7 @@ def Stomata(a,t,parameters):
     ABA=parameters['aba']
     Temp=parameters['temp']
     prod=0.01
-    KmABA=50
+    KmABA=25
     KmPP2C=50
     KmTOT3P2=50
     KmUBP24=50 
@@ -70,12 +71,12 @@ os.makedirs('output', exist_ok=True)
 
 ########### Initialize parameters and variables
 mut_test=range(4) # 4 simulations: Wt, ost1, Wt no UBP24 regulation, Wt no TOT3Pi regulation
-Finalvalues = np.zeros((len(mut_test), 2)) # we save 21, 42 degrees C stomata aperture for each simulation
+Finalvalues = np.zeros((len(mut_test), 2)) # For each simulation we save stomata aperture for min and max temperature, representing 21 and 42 degrees C
 
 timerunning=50000.1 
 times = np.arange(0, timerunning, 0.2)
 IC = [0,0,0,0,0,0,0,0,0,0]
-tempTest = np.arange(9, 13.6, 0.5)  # from 21 to 42 degrees C
+tempTest = np.arange(9, 13.6, 0.5)  # min and max, representing temperaturesfrom 21 to 42 degrees C
 tempnames = [str(int(round(v))) for v in np.linspace(21, 42, len(tempTest))]
 basal_stomata_aperture = 0.1
 aha_output = np.zeros((len(tempTest), len(mut_test),np.shape(IC)[0]))  # here we save all nodes for Wt and ost1 
@@ -85,13 +86,13 @@ Km1=40
 Km2=50
 Km3=75
 Km4=75
-Km5=40
+Km5=20
 KmAHA=50
 KmSLAC1=50
 
-#################################################################
-#################################################################
+#############################################################################
 ########### Wt, ost1 mutant, and variants simulation for temperature response
+#############################################################################
 
 ## Control 
 idx=0 
@@ -143,7 +144,7 @@ for j in range(len(tempTest)):
         cont+=1
         Finalvalues[idx, cont] = stomata_aperture
 
-#### Plot
+#### Plot 1 - Wt, ost1 mutant, and variants simulation for temperature response
 colores2=['black', 'red', 'blue', 'green']
 labels = ['Wt', 'ost1', 'Wt, no OST1-UPB24', 'Wt, no OST1-TOT3i']
 fig, ax = plt.subplots(figsize=(8, 4))
@@ -165,8 +166,9 @@ plt.savefig('output/Wt-ost1-variants.png', dpi=200, bbox_inches='tight')
 plt.show()
 
 ############################################################################
-#################################################################
 ###########  Wt temperature response
+############################################################################
+#### Plot 2 - Wt stomata aperture response to different simulated temperatures
 stomata_temperatures = (basal_stomata_aperture+(aha_output[:, :, 6]**2/ (KmAHA**2 + aha_output[:, :, 6]**2))*(KmSLAC1**2/ (KmSLAC1**2 + aha_output[:, :, 9]**2)))*(Km5**2/(Km5**2+0**2))  
 fig, ax = plt.subplots(figsize=(8, 6))
 plottingvalues=[0,3,7,-1] # plotting subsample of temperatures simulated
@@ -186,14 +188,14 @@ plt.show()
 
 
 ############################################################################
-#################################################################
-########### Wt TxD
+####################### Wt TxD
+############################################################################
 Finalvalues = [0,0,0,0]
-ABAvalues=[0,100] #extreme values for ABA: 0 and 100
+ABAvalues=[0,50] #extreme values for ABA: 0 and 50 microM
 labels=['Control','Heat','ABA','Heat x ABA']
 colores=["black","darkred","darkblue","darkgreen"]
 
-times = np.arange(0, timerunning, 0.3)
+times = np.arange(0, timerunning, 0.2)
 IC = [0,0,0,0,0,0,0,0,0,0]
 tempTest = np.array([tempTest[0], tempTest[-1]])
 tempnames = ("21","42")
@@ -209,7 +211,7 @@ for abaidx in ABAvalues: # ABA 0 and 100
         stomata_aperture=(basal_stomata_aperture+result[-1, 6]**2/ (KmAHA**2 + result[-1, 6]**2)*(KmSLAC1**2/ (KmSLAC1**2 + result[-1, 9]**2)))*(Km5**2/(Km5**2+abaidx**2))
         Finalvalues[cont] = stomata_aperture
 
-#Stomata aperture HeatxABA plot
+#### Plot 3 - Stomata aperture in single and combined Heat x ABA treatments
 plt.figure(figsize=(8, 6))
 plt.bar(labels, Finalvalues, color=colores)
 plt.ylabel('Stomata aperture')
