@@ -1,4 +1,4 @@
-This repository contains the Python source code to produce the plots of the model reported in "Evolutionary tuning of molecular charge state of UBP24 shapes responses to high temperature", by Shao-Li Yang et al. 
+This repository contains the Python source code to replicate the plots of the model reported in "Evolutionary tuning of molecular charge state of UBP24 shapes responses to high temperature", by Shao-Li Yang et al. 
 
 For a model description please see the Supplementary Information section of the paper.
 
